@@ -10,7 +10,10 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "pg": "^8.2.2",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.25"
   },
   "scripts": {
     "build": "tsc",
@@ -18,7 +21,8 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "run": "node --inspect=5858 -r ts-node/register ./dist/index.js",
     "start": "run-s clean build run",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "typeorm": "./node_modules/.bin/typeorm "
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
@@ -27,5 +31,13 @@
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
-  }
+  },
+  "tags": [
+    "orm",
+    "typescript",
+    "typescript-orm",
+    "typeorm-sample",
+    "typeorm-example",
+    "typeorm-express-example"
+  ]
 }

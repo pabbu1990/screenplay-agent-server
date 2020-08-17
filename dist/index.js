@@ -39,19 +39,70 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
-var PORT = process.env.PORT || 3001;
-var app = express_1.default();
-app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
-app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var ScriptController_1 = require("./controllers/ScriptController");
+var typeorm_1 = require("typeorm");
+// export let dbOptions: ConnectionOptions = {
+//     type: "postgres",
+//     host: "localhost",
+//     port: 5432,
+//     username: "pabbu",
+//     password: "pabbu",
+//     database: "screenplayagent",
+//     synchronize: true,
+//     logging: true,
+//     entities: ["src/entities/**/*.ts", "dist/entities/**/*.js"]
+// }
+typeorm_1.createConnection().then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
+    var PORT, app, startServer;
     return __generator(this, function (_a) {
-        res.send("Screenplay agent@$");
+        PORT = process.env.PORT || 3001;
+        app = express_1.default();
+        app.use(body_parser_1.default.json());
+        app.use(body_parser_1.default.urlencoded({ extended: true }));
+        app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                res.send("Screenplay agent@$");
+                return [2 /*return*/];
+            });
+        }); });
+        app.get('/scripts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                res.send(ScriptController_1.ScriptController.getAllScripts());
+                return [2 /*return*/];
+            });
+        }); });
+        app.post('/scripts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                res.send(ScriptController_1.ScriptController.saveScript(req.body));
+                return [2 /*return*/];
+            });
+        }); });
+        startServer = function () { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                app.listen(PORT, function () {
+                    console.log("Server is running in http://localhost:" + PORT);
+                });
+                return [2 /*return*/];
+            });
+        }); };
+        (function () { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: 
+                    // await connectDB();
+                    return [4 /*yield*/, startServer()];
+                    case 1:
+                        // await connectDB();
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); })();
+        console.log("Connected to DB");
         return [2 /*return*/];
     });
-}); });
-app.listen(PORT, function () {
-    console.log("Server is running in http://localhost:" + PORT);
-});
+}); }).catch(function (error) { return console.log("TypeORM connection error: ", error); });
 //# sourceMappingURL=index.js.map

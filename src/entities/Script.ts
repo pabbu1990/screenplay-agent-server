@@ -1,7 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Script extends BaseEntity {
+export class Script {
     @PrimaryGeneratedColumn()
     public id: number;
     @Column()

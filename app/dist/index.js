@@ -60,7 +60,7 @@ exports.config = {
 typeorm_1.createConnection(exports.config).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
     var PORT, app, startServer;
     return __generator(this, function (_a) {
-        PORT = 8080;
+        PORT = process.env.PORT || 3000;
         app = express_1.default();
         app.use(body_parser_1.default.json());
         app.use(body_parser_1.default.urlencoded({ extended: true }));

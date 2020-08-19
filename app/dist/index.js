@@ -39,46 +39,83 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScriptController = void 0;
-var Script_1 = __importDefault(require("../entities/Script"));
+exports.config = void 0;
+require("reflect-metadata");
+var express_1 = __importDefault(require("express"));
+var body_parser_1 = __importDefault(require("body-parser"));
+var ScriptController_1 = require("./controllers/ScriptController");
 var typeorm_1 = require("typeorm");
-var ScriptController = /** @class */ (function () {
-    function ScriptController() {
-    }
-    ScriptController.getAllScripts = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var scriptRepository;
+exports.config = {
+    type: 'postgres',
+    host: process.env.TYPEORM_HOST,
+    port: Number(process.env.TYPEORM_PORT),
+    username: process.env.TYPEORM_USERNAME,
+    password: process.env.TYPEORM_PASSWORD,
+    database: process.env.TYPEORM_DATABASE,
+    entities: [
+        __dirname + '/../**/entities/*{.ts,.js}'
+    ],
+    synchronize: true,
+};
+typeorm_1.createConnection(exports.config).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
+    var PORT, app, startServer;
+    return __generator(this, function (_a) {
+        PORT = 8080;
+        app = express_1.default();
+        app.use(body_parser_1.default.json());
+        app.use(body_parser_1.default.urlencoded({ extended: true }));
+        app.set('env', process.env.APP_ENV);
+        app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        scriptRepository = typeorm_1.getManager().getRepository(Script_1.default);
-                        return [4 /*yield*/, scriptRepository.find()];
-                    case 1: 
-                    // load a post by a given post id
-                    return [2 /*return*/, _a.sent()];
-                }
+                res.send("Screenplay agent@$");
+                return [2 /*return*/];
             });
-        });
-    };
-    ScriptController.saveScript = function (script) {
-        return __awaiter(this, void 0, void 0, function () {
-            var scriptRepository, newScript;
+        }); });
+        app.get('/scripts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            var scripts;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        scriptRepository = typeorm_1.getManager().getRepository(Script_1.default);
-                        newScript = scriptRepository.create(script);
-                        // save received post
-                        return [4 /*yield*/, scriptRepository.save(newScript)];
+                    case 0: return [4 /*yield*/, ScriptController_1.ScriptController.getAllScripts()];
                     case 1:
-                        // save received post
-                        _a.sent();
-                        return [2 /*return*/, newScript];
+                        scripts = _a.sent();
+                        res.send(JSON.stringify(scripts));
+                        return [2 /*return*/];
                 }
             });
-        });
-    };
-    return ScriptController;
-}());
-exports.ScriptController = ScriptController;
-//# sourceMappingURL=ScriptController.js.map
+        }); });
+        app.post('/scripts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _b = (_a = res).send;
+                        return [4 /*yield*/, ScriptController_1.ScriptController.saveScript(req.body)];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        startServer = function () { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                app.listen(PORT, function () {
+                    console.log("Server is running in http://localhost:" + PORT);
+                });
+                return [2 /*return*/];
+            });
+        }); };
+        (function () { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, startServer()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); })();
+        console.log("Connected to DB");
+        return [2 /*return*/];
+    });
+}); }).catch(function (error) { return console.log("TypeORM connection error: ", error); });
+//# sourceMappingURL=index.js.map

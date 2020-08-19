@@ -1,0 +1,25 @@
+version: "3"
+services:
+  server:
+    container_name: server
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - 8080:3000
+    env_file:
+      - .env
+    command: ['npm', 'run', 'dev']
+    links:
+      - database
+
+  database:
+    container_name: postgres
+    image: postgres:10.4
+    ports:
+      - 5432:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+volumes:
+  database-data: {}

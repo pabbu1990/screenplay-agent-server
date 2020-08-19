@@ -4,41 +4,39 @@ import bodyParser from 'body-parser';
 import {ScriptController} from "./controllers/ScriptController";
 import {ConnectionOptions, createConnection} from 'typeorm';
 
-// export let dbOptions: ConnectionOptions = {
-//     type: "postgres",
-//     host: "localhost",
-//     port: 5432,
-//     username: "pabbu",
-//     password: "pabbu",
-//     database: "screenplayagent",
-//     synchronize: true,
-//     logging: true,
-//     entities: ["src/entities/**/*.ts", "dist/entities/**/*.js"]
-// }
+export const config: ConnectionOptions = {
+    type: 'postgres',
+    host: process.env.TYPEORM_HOST,
+    port: Number(process.env.TYPEORM_PORT),
+    username: process.env.TYPEORM_USERNAME,
+    password: process.env.TYPEORM_PASSWORD,
+    database: process.env.TYPEORM_DATABASE,
+    entities: [
+        __dirname + '/../**/entities/*{.ts,.js}'
+    ],
+    synchronize: true,
+};
 
-createConnection().then(async connection => {
-
-    const PORT = process.env.PORT || 3001;
+createConnection(config).then(async connection => {
+    const PORT = 8080;
     const app = express();
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
+    app.set('env', process.env.APP_ENV);
 
     app.get('/', async (req, res) => {
         res.send(`Screenplay agent@$`);
     });
 
     app.get('/scripts', async (req, res) => {
-        res.send(ScriptController.getAllScripts());
+        const scripts = await ScriptController.getAllScripts();
+        res.send(JSON.stringify(scripts));
     });
 
     app.post('/scripts', async (req, res) => {
-        res.send(ScriptController.saveScript(req.body));
+        res.send(await ScriptController.saveScript(req.body));
     });
-
-    // export const connectDB = async () => {
-    //     await createConnection();
-    // };
 
     const startServer = async () => {
         app.listen(PORT, () => {
@@ -47,7 +45,6 @@ createConnection().then(async connection => {
     };
 
     (async () => {
-        // await connectDB();
         await startServer();
     })();
     console.log("Connected to DB");

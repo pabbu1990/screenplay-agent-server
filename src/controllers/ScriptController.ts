@@ -1,37 +1,22 @@
-import Script from "../entities/Script";
-import {getManager} from "typeorm";
+import {Script} from "../entities/Script";
 
 export class ScriptController {
     constructor() {
     }
 
     public static async getAllScripts() {
-        // connection
-        //     .then(async connection => {
-        //         const scripts: Script[] = await connection.manager.find(Script);
-        //         return scripts;
-        //     })
-        //     .catch(error => {
-        //         console.error("Error ", error);
-        //         return error;
-        //     });
-
-        const scriptRepository = getManager().getRepository(Script);
-
-        // load a post by a given post id
-        return await scriptRepository.find();
+        console.log('request received to get all scripts');
+        return await Script.find();
     }
 
     public static async saveScript(script: Script) {
-        const scriptRepository = getManager().getRepository(Script);
+        console.log('request received to save script with name: ' + script.name);
+        const scriptToSave = new Script();
+        scriptToSave.name = script.name;
 
-        // create a real post object from post json object sent over http
-        const newScript = scriptRepository.create(script);
+        await scriptToSave.save();
 
-        // save received post
-        await scriptRepository.save(newScript);
-
-        return newScript;
+        return JSON.stringify(scriptToSave);
     }
 
     // /**

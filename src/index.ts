@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {ScriptController} from "./controllers/ScriptController";
 import {ConnectionOptions, createConnection} from 'typeorm';
+import {UserController} from "./controllers/UserController";
 
 export const config: ConnectionOptions = {
     type: 'postgres',
@@ -34,8 +35,17 @@ createConnection(config).then(async connection => {
         res.send(JSON.stringify(scripts));
     });
 
+    app.get('/users', async (req, res) => {
+        const users = await UserController.getAllUsers();
+        res.send(JSON.stringify(users));
+    });
+
     app.post('/scripts', async (req, res) => {
         res.send(await ScriptController.saveScript(req.body));
+    });
+
+    app.post('/users', async (req, res) => {
+        res.send(await UserController.saveUser(req.body));
     });
 
     const startServer = async () => {

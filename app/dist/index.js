@@ -45,6 +45,7 @@ var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
 var ScriptController_1 = require("./controllers/ScriptController");
 var typeorm_1 = require("typeorm");
+var UserController_1 = require("./controllers/UserController");
 exports.config = {
     type: 'postgres',
     host: process.env.TYPEORM_HOST,
@@ -83,6 +84,18 @@ typeorm_1.createConnection(exports.config).then(function (connection) { return _
                 }
             });
         }); });
+        app.get('/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            var users;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, UserController_1.UserController.getAllUsers()];
+                    case 1:
+                        users = _a.sent();
+                        res.send(JSON.stringify(users));
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         app.post('/scripts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
             var _a, _b;
             return __generator(this, function (_c) {
@@ -90,6 +103,19 @@ typeorm_1.createConnection(exports.config).then(function (connection) { return _
                     case 0:
                         _b = (_a = res).send;
                         return [4 /*yield*/, ScriptController_1.ScriptController.saveScript(req.body)];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        app.post('/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _b = (_a = res).send;
+                        return [4 /*yield*/, UserController_1.UserController.saveUser(req.body)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [2 /*return*/];

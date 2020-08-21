@@ -22,31 +22,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Script = void 0;
+exports.User = void 0;
 var typeorm_1 = require("typeorm");
-var User_1 = require("./User");
-var Script = /** @class */ (function (_super) {
-    __extends(Script, _super);
-    function Script() {
+var User = /** @class */ (function (_super) {
+    __extends(User, _super);
+    function User() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Script.prototype, "id", void 0);
+    ], User.prototype, "id", void 0);
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Script.prototype, "name", void 0);
+    ], User.prototype, "name", void 0);
     __decorate([
-        typeorm_1.OneToOne(function () { return User_1.User; }),
-        typeorm_1.JoinColumn(),
-        __metadata("design:type", User_1.User)
-    ], Script.prototype, "user", void 0);
-    Script = __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], User.prototype, "email", void 0);
+    User = __decorate([
         typeorm_1.Entity()
-    ], Script);
-    return Script;
+    ], User);
+    return User;
 }(typeorm_1.BaseEntity));
-exports.Script = Script;
-//# sourceMappingURL=Script.js.map
+exports.User = User;
+//# sourceMappingURL=User.js.map

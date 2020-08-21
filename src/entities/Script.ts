@@ -1,4 +1,5 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn} from 'typeorm';
+import {User} from "./User";
 
 @Entity()
 export class Script extends BaseEntity {
@@ -6,4 +7,7 @@ export class Script extends BaseEntity {
     public id: number;
     @Column()
     public name: string;
+    @OneToOne(() => User)
+    @JoinColumn()
+    public user: User;
 }

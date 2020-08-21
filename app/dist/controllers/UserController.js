@@ -36,52 +36,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScriptController = void 0;
-var Script_1 = require("../entities/Script");
+exports.UserController = void 0;
 var User_1 = require("../entities/User");
-var ScriptController = /** @class */ (function () {
-    function ScriptController() {
+var UserController = /** @class */ (function () {
+    function UserController() {
     }
-    ScriptController.getAllScripts = function () {
+    UserController.getAllUsers = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log('request received to get all scripts');
-                        return [4 /*yield*/, Script_1.Script.find()];
+                        console.log('request received to get all users');
+                        return [4 /*yield*/, User_1.User.find()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    ScriptController.saveScript = function (script) {
+    UserController.saveUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, userToSave, scriptToSave;
+            var userToSave;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log('request received to save script with name: ' + script.name);
-                        user = script.user;
+                        console.log('request received to save user: ' + user.name);
                         userToSave = new User_1.User();
                         userToSave.name = user.name;
                         userToSave.email = user.email;
                         return [4 /*yield*/, userToSave.save()];
                     case 1:
                         _a.sent();
-                        scriptToSave = new Script_1.Script();
-                        scriptToSave.user = userToSave;
-                        scriptToSave.name = script.name;
-                        // Object.keys(script).forEach(key => scriptToSave[key] = user[script]);
-                        return [4 /*yield*/, scriptToSave.save()];
-                    case 2:
-                        // Object.keys(script).forEach(key => scriptToSave[key] = user[script]);
-                        _a.sent();
-                        return [2 /*return*/, JSON.stringify(scriptToSave)];
+                        return [2 /*return*/, JSON.stringify(userToSave)];
                 }
             });
         });
     };
-    return ScriptController;
+    return UserController;
 }());
-exports.ScriptController = ScriptController;
-//# sourceMappingURL=ScriptController.js.map
+exports.UserController = UserController;
+//# sourceMappingURL=UserController.js.map

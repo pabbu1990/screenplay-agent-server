@@ -41,32 +41,40 @@ var User_1 = require("../entities/User");
 var UserController = /** @class */ (function () {
     function UserController() {
     }
-    UserController.getAllUsers = function () {
+    UserController.getAllUsers = function (connection) {
         return __awaiter(this, void 0, void 0, function () {
+            var userRepo;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log('request received to get all users');
-                        return [4 /*yield*/, User_1.User.find()];
+                        userRepo = connection.getRepository(User_1.User);
+                        return [4 /*yield*/, userRepo.find({ relations: ["script"] })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    UserController.saveUser = function (user) {
+    UserController.saveUser = function (user, connection) {
         return __awaiter(this, void 0, void 0, function () {
-            var userToSave;
+            var userRepo, userToSave;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log('request received to save user: ' + user.name);
+                        userRepo = connection.getRepository(User_1.User);
+                        return [4 /*yield*/, userRepo.findOne({ email: user.email })];
+                    case 1:
+                        userToSave = _a.sent();
+                        if (!!userToSave) return [3 /*break*/, 3];
                         userToSave = new User_1.User();
                         userToSave.name = user.name;
                         userToSave.email = user.email;
                         return [4 /*yield*/, userToSave.save()];
-                    case 1:
+                    case 2:
                         _a.sent();
                         return [2 /*return*/, JSON.stringify(userToSave)];
+                    case 3: throw new Error("User with email address " + user.email + " already exists");
                 }
             });
         });

@@ -31,21 +31,25 @@ createConnection(config).then(async connection => {
     });
 
     app.get('/scripts', async (req, res) => {
-        const scripts = await ScriptController.getAllScripts();
+        const scripts = await ScriptController.getAllScripts(connection);
         res.send(JSON.stringify(scripts));
     });
 
     app.get('/users', async (req, res) => {
-        const users = await UserController.getAllUsers();
+        const users = await UserController.getAllUsers(connection);
         res.send(JSON.stringify(users));
     });
 
     app.post('/scripts', async (req, res) => {
-        res.send(await ScriptController.saveScript(req.body));
+        res.send(await ScriptController.saveScript(req.body, connection));
     });
 
     app.post('/users', async (req, res) => {
-        res.send(await UserController.saveUser(req.body));
+        try {
+            res.send(await UserController.saveUser(req.body, connection));
+        } catch (e) {
+            res.send(e.message);
+        }
     });
 
     const startServer = async () => {

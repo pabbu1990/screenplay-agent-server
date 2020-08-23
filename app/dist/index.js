@@ -76,7 +76,7 @@ typeorm_1.createConnection(exports.config).then(function (connection) { return _
             var scripts;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ScriptController_1.ScriptController.getAllScripts()];
+                    case 0: return [4 /*yield*/, ScriptController_1.ScriptController.getAllScripts(connection)];
                     case 1:
                         scripts = _a.sent();
                         res.send(JSON.stringify(scripts));
@@ -88,7 +88,7 @@ typeorm_1.createConnection(exports.config).then(function (connection) { return _
             var users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, UserController_1.UserController.getAllUsers()];
+                    case 0: return [4 /*yield*/, UserController_1.UserController.getAllUsers(connection)];
                     case 1:
                         users = _a.sent();
                         res.send(JSON.stringify(users));
@@ -102,7 +102,7 @@ typeorm_1.createConnection(exports.config).then(function (connection) { return _
                 switch (_c.label) {
                     case 0:
                         _b = (_a = res).send;
-                        return [4 /*yield*/, ScriptController_1.ScriptController.saveScript(req.body)];
+                        return [4 /*yield*/, ScriptController_1.ScriptController.saveScript(req.body, connection)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [2 /*return*/];
@@ -110,15 +110,21 @@ typeorm_1.createConnection(exports.config).then(function (connection) { return _
             });
         }); });
         app.post('/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-            var _a, _b;
+            var _a, _b, e_1;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).send;
-                        return [4 /*yield*/, UserController_1.UserController.saveUser(req.body)];
+                        return [4 /*yield*/, UserController_1.UserController.saveUser(req.body, connection)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
-                        return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_1 = _c.sent();
+                        res.send(e_1.message);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         }); });

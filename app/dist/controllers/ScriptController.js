@@ -42,7 +42,7 @@ var User_1 = require("../entities/User");
 var ScriptController = /** @class */ (function () {
     function ScriptController() {
     }
-    ScriptController.getAllScripts = function () {
+    ScriptController.getAllScripts = function (connection) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -54,26 +54,33 @@ var ScriptController = /** @class */ (function () {
             });
         });
     };
-    ScriptController.saveScript = function (script) {
+    ScriptController.saveScript = function (script, connection) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, userToSave, scriptToSave;
+            var user, userRepo, userToSave, scriptToSave;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log('request received to save script with name: ' + script.name);
                         user = script.user;
-                        userToSave = new User_1.User();
-                        userToSave.name = user.name;
-                        userToSave.email = user.email;
-                        return [4 /*yield*/, userToSave.save()];
+                        userRepo = connection.getRepository(User_1.User);
+                        return [4 /*yield*/, userRepo.findOne({ email: user.email })];
                     case 1:
+                        userToSave = _a.sent();
+                        if (!userToSave) {
+                            userToSave = new User_1.User();
+                            userToSave.name = user.name;
+                            userToSave.email = user.email;
+                        }
+                        return [4 /*yield*/, userToSave.save()];
+                    case 2:
                         _a.sent();
                         scriptToSave = new Script_1.Script();
                         scriptToSave.user = userToSave;
                         scriptToSave.name = script.name;
+                        scriptToSave.logLine = script.logLine;
                         // Object.keys(script).forEach(key => scriptToSave[key] = user[script]);
                         return [4 /*yield*/, scriptToSave.save()];
-                    case 2:
+                    case 3:
                         // Object.keys(script).forEach(key => scriptToSave[key] = user[script]);
                         _a.sent();
                         return [2 /*return*/, JSON.stringify(scriptToSave)];

@@ -1,6 +1,7 @@
 import { User } from "../entities/User";
+import { Connection } from "typeorm";
 export declare class UserController {
     constructor();
-    static getAllUsers(): Promise<User[]>;
-    static saveUser(user: User): Promise<string>;
+    static getAllUsers(connection: Connection): Promise<User[]>;
+    static saveUser(user: User, connection: Connection): Promise<string>;
 }

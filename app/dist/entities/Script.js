@@ -39,8 +39,11 @@ var Script = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], Script.prototype, "name", void 0);
     __decorate([
-        typeorm_1.OneToOne(function () { return User_1.User; }),
-        typeorm_1.JoinColumn(),
+        typeorm_1.Column({ nullable: true }),
+        __metadata("design:type", String)
+    ], Script.prototype, "logLine", void 0);
+    __decorate([
+        typeorm_1.ManyToOne(function (type) { return User_1.User; }, function (user) { return user.script; }),
         __metadata("design:type", User_1.User)
     ], Script.prototype, "user", void 0);
     Script = __decorate([

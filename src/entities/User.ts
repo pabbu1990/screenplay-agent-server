@@ -1,4 +1,5 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Script} from "./Script";
 
 @Entity()
 export class User extends BaseEntity {
@@ -8,4 +9,6 @@ export class User extends BaseEntity {
     public name: string;
     @Column()
     public email: string;
+    @OneToMany(type => Script, script => script.user, {cascade: true})
+    public script: Script[]
 }

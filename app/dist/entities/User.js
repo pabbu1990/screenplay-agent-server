@@ -24,6 +24,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 var typeorm_1 = require("typeorm");
+var Script_1 = require("./Script");
 var User = /** @class */ (function (_super) {
     __extends(User, _super);
     function User() {
@@ -41,6 +42,10 @@ var User = /** @class */ (function (_super) {
         typeorm_1.Column(),
         __metadata("design:type", String)
     ], User.prototype, "email", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function (type) { return Script_1.Script; }, function (script) { return script.user; }, { cascade: true }),
+        __metadata("design:type", Array)
+    ], User.prototype, "script", void 0);
     User = __decorate([
         typeorm_1.Entity()
     ], User);
